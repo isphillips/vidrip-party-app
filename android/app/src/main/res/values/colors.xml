@@ -1,0 +1,5 @@
+<resources>
+    <color name="night">#05070D</color>
+    <!-- The launch art's ink (assets/launch, LaunchScreen.storyboard). -->
+    <color name="launch_ink">#9C86D8</color>
+</resources>

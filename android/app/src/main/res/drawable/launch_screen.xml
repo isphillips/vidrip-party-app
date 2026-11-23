@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launch (Android 11 and older): the game's night ink with the logo in the middle. The app then shows the full
+     launch art (App.tsx Splash) until the game has loaded. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/launch_ink" />
+    <item>
+        <bitmap android:gravity="center" android:src="@drawable/launch_logo" />
+    </item>
+</layer-list>

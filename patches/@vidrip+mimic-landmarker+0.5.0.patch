@@ -1,0 +1,12 @@
+diff --git a/node_modules/@vidrip/mimic-landmarker/package.json b/node_modules/@vidrip/mimic-landmarker/package.json
+index ebcad7e..5c49cd0 100644
+--- a/node_modules/@vidrip/mimic-landmarker/package.json
++++ b/node_modules/@vidrip/mimic-landmarker/package.json
+@@ -1,6 +1,7 @@
+ {
+   "name": "@vidrip/mimic-landmarker",
+   "version": "0.5.0",
++  "homepage": "https://mimic.vidrip.app",
+   "description": "MediaPipe Face Landmarker as a Nitro module: the React Native provider for the Vidrip Mimic SDK.",
+   "main": "src/index.ts",
+   "types": "src/index.ts",
