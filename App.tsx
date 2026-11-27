@@ -30,7 +30,7 @@ import { NativePreviewView, useCamera, useCameraDevice, useCameraPermission, use
 import { useMimic } from '@vidrip/mimic-react-native';
 import type { FaceSample } from '@vidrip/mimic-core';
 import { SPARSE_INDICES } from '@vidrip/mimic-landmarker';
-import { AuthorizationStatus, getInitialNotification, getMessaging, getToken, hasPermission, onNotificationOpenedApp, onTokenRefresh, requestPermission as requestPushPermission, type FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+import { AuthorizationStatus, getInitialNotification, getAPNSToken, getMessaging, getToken, hasPermission, onNotificationOpenedApp, onTokenRefresh, registerDeviceForRemoteMessages, requestPermission as requestPushPermission, type FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import DeviceInfo from 'react-native-device-info';
 import { onClipMessage, type ClipMsg } from './src/clipBridge';
 
@@ -106,10 +106,23 @@ function Game() {
         if (ask) { inject(`window.__pushLast=Object.assign(window.__pushLast||{},{state:'denied'});window.__sbPushState&&window.__sbPushState('denied')`); }
         return;
       }
-      const token = await getToken(getMessaging());
+      const m = getMessaging();
+      // iOS: FCM needs the APNs token first. Register, wait for it (it arrives a moment after the permission), then retry getToken.
+      if (Platform.OS === 'ios') {
+        try { await registerDeviceForRemoteMessages(m); } catch { /* already registered */ }
+        for (let i = 0; i < 15; i++) { if (await getAPNSToken(m).catch(() => null)) { break; } await new Promise<void>((r) => setTimeout(r, 1000)); }
+      }
+      let token = '';
+      let lastErr: unknown = null;
+      for (let i = 0; i < 8 && !token; i++) {
+        try { token = await getToken(m); } catch (e) { lastErr = e; await new Promise<void>((r) => setTimeout(r, 1500)); }
+      }
+      if (!token) { throw lastErr || new Error('no token'); }
       const arg = JSON.stringify(token), plat = JSON.stringify(pushPlatform);
       inject(`window.__pushLast={token:${arg},platform:${plat},state:'granted'};window.__sbPushState&&window.__sbPushState('granted');window.__sbPushToken&&window.__sbPushToken(${arg},${plat})`);
-    } catch { /* Firebase not configured in this build */ }
+    } catch (e) { /* Firebase not configured, or no token yet: leave a trace the page can read */
+      inject(`window.__pushLast=Object.assign(window.__pushLast||{},{err:${JSON.stringify(String((e as Error)?.message || e).slice(0, 200))}})`);
+    }
   }, [inject, pushPlatform]);
   const pushOpen = useRef<{ kind: string; lobby?: string } | null>(null);
   const pushOpenSend = useCallback(() => {
