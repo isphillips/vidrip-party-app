@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
     // A game: its music and sounds play with the ringer switch on silent, alongside other apps' audio.
-    try? AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .defaultToSpeaker, .allowBluetooth])
+    try? AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .allowBluetooth])
     try? AVAudioSession.sharedInstance().setActive(true)
 
     // Push: Firebase starts only when GoogleService-Info.plist is in the app (it is not committed), so a build
