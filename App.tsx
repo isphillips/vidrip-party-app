@@ -121,7 +121,8 @@ function Game() {
       const arg = JSON.stringify(token), plat = JSON.stringify(pushPlatform);
       inject(`window.__pushLast={token:${arg},platform:${plat},state:'granted'};window.__sbPushState&&window.__sbPushState('granted');window.__sbPushToken&&window.__sbPushToken(${arg},${plat})`);
     } catch (e) { /* Firebase not configured, or no token yet: leave a trace the page can read */
-      inject(`window.__pushLast=Object.assign(window.__pushLast||{},{err:${JSON.stringify(String((e as Error)?.message || e).slice(0, 200))}})`);
+      const msg = JSON.stringify(String((e as Error)?.message || e).slice(0, 200));
+      inject(`window.__pushLast=Object.assign(window.__pushLast||{},{err:${msg}});window.__sbPushError&&window.__sbPushError(${msg})`);
     }
   }, [inject, pushPlatform]);
   const pushOpen = useRef<{ kind: string; lobby?: string } | null>(null);
