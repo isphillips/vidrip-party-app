@@ -12,6 +12,8 @@
 	<false/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Voice chat with your squad and teammates. The microphone is only on when you turn voice chat on.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Vidrip Party saves your clip to Photos when you tap Save. It does not read your other photos.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Vidrip Party saves your clip to Photos when you tap Save.</string>
 	<key>NSCameraUsageDescription</key>
