@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "127457429870",
+    "project_id": "vidrip-party",
+    "storage_bucket": "vidrip-party.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127457429870:android:a7feb289922ab700cd197f",
+        "android_client_info": {
+          "package_name": "org.vidrip.party"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyFjmBUymegLsYqw0GAK-LpKDZY20mfUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

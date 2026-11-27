@@ -1,4 +1,5 @@
 import AVFoundation
+import FirebaseCore
 import UIKit
 import React
 import React_RCTAppDelegate
@@ -18,6 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // A game: its music and sounds play with the ringer switch on silent, alongside other apps' audio.
     try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers])
     try? AVAudioSession.sharedInstance().setActive(true)
+
+    // Push: Firebase starts only when GoogleService-Info.plist is in the app (it is not committed), so a build
+    // without it still launches (push just stays off).
+    if Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") != nil {
+      FirebaseApp.configure()
+    }
 
     let delegate = ReactNativeDelegate()
     let factory = RCTReactNativeFactory(delegate: delegate)

@@ -1,9 +1,13 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <!-- Push notifications (Android 13+ asks at runtime; the page triggers it, see App.tsx). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Saving a clip to the gallery needs this only on Android 8 and 9; Android 10+ saves through MediaStore with no permission. -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <!-- The activity is locked to portrait; without this Play treats portrait as a required feature and hides the app from desktop / Chromebook / PC users. -->
     <uses-feature android:name="android.hardware.screen.portrait" android:required="false" />
@@ -17,6 +21,9 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="${usesCleartextTraffic}"
       android:supportsRtl="true">
+      <!-- Push: the channel MainApplication creates, and the tint of the small icon. -->
+      <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="alerts" tools:replace="android:value" />
+      <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/launch_ink" tools:replace="android:resource" />
       <activity
         android:name=".MainActivity"
         android:screenOrientation="portrait"

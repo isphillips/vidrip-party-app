@@ -82,7 +82,7 @@ android {
         applicationId "org.vidrip.party"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
+        versionCode 6
         versionName "1.0.0"
     }
     signingConfigs {
@@ -114,6 +114,12 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
+}
+
+// Push (FCM): the google-services plugin reads app/google-services.json. That file is not committed; without it the
+// plugin is skipped so the build still works (push just stays off in that build).
+if (file('google-services.json').exists()) {
+    apply plugin: "com.google.gms.google-services"
 }
 
 dependencies {
